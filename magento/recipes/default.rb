@@ -63,9 +63,6 @@ end
 
 ### MySQL ###
 include_recipe "mysql::server"
-require 'rubygems'
-Gem.clear_paths
-require 'mysql'
 
 template "/etc/mysql/magento-grants.sql" do
   path "/etc/mysql/magento-grants.sql"
@@ -84,16 +81,12 @@ end
 
 execute "create #{node[:magento][:db][:database]} database" do
   command "/usr/bin/mysqladmin -u root -p#{node[:mysql][:server_root_password]} create #{node[:magento][:db][:database]}"
-  not_if do
-    m = Mysql.new("localhost", "root", node[:mysql][:server_root_password])
-    m.list_dbs.include?(node[:magento][:db][:database])
-  end
   not_if {File.exists?("#{node[:magento][:dir]}/app/etc/local.xml")}
 end
 
 
 ### PHP ###
-include_recipe %w{php::php5 php::module_apc php::module_curl php::module_mcrypt}
+include_recipe %w{apache2::mod_php5 php php::module_mysql php::module_apc php::module_curl php::module_mcrypt}
 
 execute "magento-install" do
   command "#{Chef::Config[:file_cache_path]}/install"

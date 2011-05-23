@@ -19,7 +19,7 @@
 #
 
 # General settings
-default[:magento][:version] = "1.5.0.1"
+default[:magento][:version] = "1.5.1.0"
 default[:magento][:dir] = "/var/www"
 default[:magento][:db][:database] = "magento"
 default[:magento][:db][:user] = "magento"
