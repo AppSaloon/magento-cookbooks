@@ -27,6 +27,16 @@ Vagrant::Config.run do |config|
       :mysql => {
         :server_root_password => "root"
       },      
+      :apache => {
+        :prefork => {
+          :startservers => 5,
+	  :minspareservers => 2,
+          :maxspareservers => 2,
+          :serverlimit => 10,
+          :maxclients => 10,
+          :maxrequestsperchild => 1000
+        }
+      },
       :magento => {
         :version => "1.5.1.0",
         :db => {
