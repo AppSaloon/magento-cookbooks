@@ -86,8 +86,26 @@ end
 
 
 ### PHP ###
-include_recipe %w{apache2::mod_php5 php php::module_mysql php::module_apc php::module_curl php::module_mcrypt php::module_gd}
+include_recipe %w{ php apache2::mod_php5 }
 
+%w{ php5-mysql php5-curl php5-mcrypt php5-gd php-apc }.each do |pkg|
+  package pkg do
+    action :install
+  end
+end
+
+template "/etc/php5/conf.d/apc.ini" do
+  source "apc.ini.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  variables(
+    :options => {:shm_size => 128} # move value to config
+  )
+  notifies :restart, resources(:service => "apache2"), :delayed
+end
+
+### Install Magento ###
 execute "magento-install" do
   command "#{Chef::Config[:file_cache_path]}/install"
   action :nothing

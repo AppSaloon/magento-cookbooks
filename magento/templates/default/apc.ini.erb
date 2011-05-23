@@ -1,0 +1,4 @@
+extension=apc.so
+<% @options.each do |k,v| -%>
+<%= "apc.#{k}=\"#{v}\"" %>
+<% end -%>

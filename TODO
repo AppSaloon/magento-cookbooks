@@ -1,3 +1,2 @@
 * add option to install sample data
 * add option to deploy custom code in modman directory
-* set apc.shm_size
