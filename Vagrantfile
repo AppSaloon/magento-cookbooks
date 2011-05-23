@@ -45,6 +45,6 @@ Vagrant::Config.run do |config|
     })
 
     # Debug
-    chef.log_level = :debug
+    #chef.log_level = :debug
   end
 end
